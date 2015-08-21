@@ -50,7 +50,11 @@ public class EnemyAI : MonoBehaviour {
                 }
                 if (attackTimer <= 0)
                 {
-                    TurretHP hp = target.GetComponent<TurretHP>();
+                    TurretHP targethp = target.GetComponent<TurretHP>();
+                    if (targethp != null)
+                    {
+                        targethp.ChangeHP(-damage);
+                    }
                 }
             }
         }
