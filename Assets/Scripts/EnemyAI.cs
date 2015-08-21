@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Path : MonoBehaviour {
+public class EnemyAI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start()
