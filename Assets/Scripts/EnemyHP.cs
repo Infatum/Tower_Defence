@@ -1,61 +1,58 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class EnemyHP : MonoBehaviour {
-
+public class EnemyHP : MonoBehaviour
+{
     public float maxHP = 100f;
-    public float currentHP = 100f;
     public Color MaxDamageColor = Color.red;
     public Color MinDamageColor = Color.blue;
 
-    private GlobalVars vars;
+    float currentHP;
 
-    private void Awake()
+    void Awake()
     {
-        vars = GameObject.Find("GlobalVars").GetComponent<GlobalVars>();
-        if (vars != null)
-        {
-            vars.EnemyList.Add(gameObject);
-            vars.EnemyCount++;
-        }
+        ChangeColor();
         if (maxHP < 1)
         {
-            maxHP = 1;
+            maxHP = 1f;
         }
+        currentHP = maxHP;
     }
-    public void ChangeHP(float adjust)
+
+    public void ReceiveDamage(float damage)
     {
-        gameObject.GetComponent<Animation>().Play("Enemy_recieveDamage");
-        if ((currentHP + adjust) > maxHP) { currentHP = maxHP; }
+        gameObject.GetComponent<Animation>().Play("Enemy_RecieveDamage", PlayMode.StopAll);
+        if ((currentHP - damage) > maxHP)
+        {
+            currentHP = maxHP;
+        }
         else
         {
-            currentHP += adjust;
+            currentHP -= damage;
         }
-    }
-	void Start()
-	{
-	
-	}
-	
-	void Update()
-	{
-        gameObject.GetComponent<Renderer>().material.color = Color.Lerp(MaxDamageColor, MinDamageColor, currentHP / maxHP);
+
         if (currentHP <= 0)
         {
-            EnemyAI enAI = gameObject.GetComponent<EnemyAI>();
-            if(enAI != null && vars != null)
-            {
-                vars.PlayerMoney += enAI.enemyPrice;
-                Destroy(gameObject);
-            }
+            gameObject.SendMessage("Die", SendMessageOptions.DontRequireReceiver);
         }
-	}
-    private void OnDestroy()
+    }
+
+    void Die()
     {
-        if (vars != null)
-        {
-            vars.EnemyList.Remove(gameObject);
-            vars.EnemyCount--;
-        }
+        Destroy(gameObject);
+    }
+
+    void Update()
+    {
+        ChangeColor();
+    }
+
+    void ChangeColor()
+    {
+        gameObject.GetComponent<Renderer>().material.color = Color.Lerp(MaxDamageColor, MinDamageColor, currentHP / maxHP);
+    }
+
+    void OnDestroy()
+    {
+        
     }
 }

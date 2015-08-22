@@ -17,7 +17,6 @@ public class BigTurretAI : MonoBehaviour
     public float reloadTime = 2.5f;
     public const float ReloadTime = 2.5f;
     public float TurretRotationSpeed = 1.5f;
-    public float rotationSpeed = 1.5f;
 
     public float reloadCooldown = 2.5f;
     public int FireOrder = 1;
@@ -39,9 +38,8 @@ public class BigTurretAI : MonoBehaviour
             float distance = Vector2.Distance(turretHeadTransform.position, cur_target.transform.position);
             if (attackMinimumDistance < distance && distance < attackMaximumDistance) {
                 Vector3 vectorToTarget = turretHeadTransform.position - cur_target.transform.position;
-                turretHeadTransform.rotation = Quaternion.Slerp(turretHeadTransform.rotation, Quaternion.LookRotation(vectorToTarget, Vector3.forward), 1 * Time.deltaTime);
+                turretHeadTransform.rotation = Quaternion.Slerp(turretHeadTransform.rotation, Quaternion.LookRotation(vectorToTarget, Vector3.forward), TurretRotationSpeed * Time.deltaTime);
                 turretHeadTransform.eulerAngles = new Vector3(0f, 0f, turretHeadTransform.eulerAngles.z);
-                Debug.Log("rotation");
 
                 if (reloadTime > 0) {
                     reloadTime -= Time.deltaTime;
@@ -64,11 +62,10 @@ public class BigTurretAI : MonoBehaviour
     {
         turretHeadTransform.GetComponent<Animation>().Play("GunAttack");
         EnemyHP enemyhp = cur_target.GetComponent<EnemyHP>();
-        if (enemyhp != null) {
-            Debug.Log("Enemy HP before damage:" + enemyhp.currentHP);
+        if (enemyhp != null)
+        {
             attackDamage = Random.Range(min, max);
-            enemyhp.ChangeHP(-attackDamage);
-            Debug.Log("HP of enemy after shooting : " + enemyhp.currentHP);
+            enemyhp.ReceiveDamage(attackDamage);
         }
 
     }
