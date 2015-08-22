@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
-public class EnemyAI : MonoBehaviour {
-
+public class EnemyAI : MonoBehaviour
+{
     public GameObject target;
     public float enemyPrice = 5f;
     public float enemyMinSpeed = 0.5f;
@@ -13,7 +14,9 @@ public class EnemyAI : MonoBehaviour {
     public float damage = 5f;
     public float attackTimer = 0f;
     public float coolDown = 2f;
-    public GameObject[] pathPoints;
+    public float closestTargDist = 1f;
+    public List<GameObject> pathPoints;
+    int currentPathPoint = 0;
 
     private float enemyCurrentSpeed;
     private Transform enemy;
@@ -22,8 +25,17 @@ public class EnemyAI : MonoBehaviour {
     private void Awake()
     {
         vars = GameObject.Find("GlobalVars").GetComponent<GlobalVars>();
+        pathPoints = GameObject.FindGameObjectsWithTag("Path").OrderBy(GO => GO.name).ToList();
         enemy = transform;
         enemyCurrentSpeed = Random.Range(enemyMinSpeed, enemyMaxSpeed);
+    }
+    GameObject GetTarget()
+    {
+        if (Vector2.Distance(transform.position, pathPoints[currentPathPoint].transform.position) <= closestTargDist)
+        {
+            currentPathPoint++;
+        }
+        return pathPoints[currentPathPoint];
     }
     private GameObject NearestTurret()
     {
@@ -31,52 +43,30 @@ public class EnemyAI : MonoBehaviour {
         GameObject nearestTurret = null;
         List<GameObject> nearestTurrets = vars.TurretList;
 
-        foreach(var turret in nearestTurrets)
+        foreach (var turret in nearestTurrets)
         {
             if ((Vector2.Distance(enemy.position, target.transform.position) < closestTurretDistance) || closestTurretDistance == 0)
             {
                 closestTurretDistance = Vector2.Distance(enemy.position, turret.transform.position);
                 nearestTurret = turret;
-
             }
         }
         return nearestTurret;
-
     }
-    //public void Path()
-    //{
-    //    for(int i = 0; i < pathPoints.Length; i++)
-    //    {
-    //        pathPoints[i] = GameObject.FindWithTag("Path");
-    //        float distance = Vector3.Distance(enemy.transform.position, pathPoints[i].transform.position);
-    //        if (distance < 0.2f) {
-    //            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, pathPoints[i + 1].transform.position, 1f);
-    //        }
-    //        else
-    //        {
-    //             enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, pathPoints[i].transform.position, 1f);
-    //        }
+
+
+    void Update()
+    {
+
+        if (target != null)
+        {
+            target = GetTarget();
+
+            //Rotate to Target
+            Vector3 vectorToTarget = transform.position - target.transform.position;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(vectorToTarget, Vector3.forward),
+                enemyRotationSpeed * Time.deltaTime);
            
-    //    }
-    //}
-	void Update()
-	{
-
-        if (target == null)
-        {
-            target = NearestTurret();
-        }
-        else
-        {
-            Vector3 direction = new Vector3(0.0f, 0.0f, target.transform.position.z) - new Vector3(0.0f, 0.0f, enemy.position.z);
-            enemy.rotation = Quaternion.Lerp(
-                enemy.rotation,
-                Quaternion.LookRotation(direction),
-                enemyRotationSpeed
-            );
-
-            enemy.position += enemy.up * enemyCurrentSpeed * Time.deltaTime;
-
             float distance = Vector2.Distance(target.transform.position, enemy.position);
             Vector2 structDirection = (target.transform.position - enemy.position).normalized;
             float attackDirection = Vector2.Dot(structDirection, enemy.forward);
@@ -98,6 +88,5 @@ public class EnemyAI : MonoBehaviour {
                 }
             }
         }
-
     }
 }
