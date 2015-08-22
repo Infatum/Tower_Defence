@@ -16,21 +16,40 @@ public class TurretHP : MonoBehaviour {
             vars.TurretList.Add(gameObject);
             vars.TurretCount++;
         }
-        if (maxHP < maxHP) maxHP = 1;
+        if (maxHP < 1) maxHP = 1;
     }
-    private void ChangeHP(float adjust)
+    public void ChangeHP(float adjust)
     {
-
+        if((curHP + adjust) > maxHP)
+        {
+            curHP = maxHP;
+        }
+        else
+        {
+            curHP += adjust;
+        }
+        if (curHP > maxHP)
+        { curHP = maxHP; }
     }
-	// Use this for initialization
+
 	void Start()
 	{
 	
 	}
 	
-	// Update is called once per frame
 	void Update()
 	{
-	
+	    if (curHP <= 0)
+        {
+            Destroy(gameObject);
+        }
 	}
+    private void OnDestroy()
+    {
+        if (vars != null)
+        {
+            vars.TurretList.Remove(gameObject);
+            vars.TurretCount--;
+        }
+    }
 }

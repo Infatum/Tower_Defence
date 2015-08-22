@@ -12,17 +12,49 @@ public class EnemyHP : MonoBehaviour {
 
     private void Awake()
     {
-
+        vars = GameObject.Find("GlobalVars").GetComponent<GlobalVars>();
+        if (vars != null)
+        {
+            vars.EnemyList.Add(gameObject);
+            vars.EnemyCount++;
+        }
+        if (maxHP < 1)
+        {
+            maxHP = 1;
+        }
     }
-	// Use this for initialization
+    public void ChangeHP(float adjust)
+    {
+        if((currentHP + adjust) > maxHP) { currentHP = maxHP; }
+        else
+        {
+            currentHP += adjust;
+        }
+    }
 	void Start()
 	{
 	
 	}
 	
-	// Update is called once per frame
 	void Update()
 	{
-	
+        gameObject.GetComponent<Renderer>().material.color = Color.Lerp(MaxDamageColor, MinDamageColor, currentHP / maxHP);
+        if (currentHP <= 0)
+        {
+            EnemyAI enAI = gameObject.GetComponent<EnemyAI>();
+            if(enAI != null && vars != null)
+            {
+                vars.PlayerMoney += enAI.enemyPrice;
+                Destroy(gameObject);
+            }
+        }
 	}
+    private void OnDestroy()
+    {
+        if (vars != null)
+        {
+            vars.EnemyList.Remove(gameObject);
+            vars.EnemyCount--;
+        }
+    }
 }

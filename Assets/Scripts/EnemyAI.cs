@@ -24,42 +24,6 @@ public class EnemyAI : MonoBehaviour {
         enemy = transform;
         enemyCurrentSpeed = Random.Range(enemyMinSpeed, enemyMaxSpeed);
     }
-	void Start()
-	{
-	    if (target == null)
-        {
-            target = NearestTurret();
-        }
-        else
-        {
-            enemy.rotation = Quaternion.Lerp(enemy.rotation, 
-                Quaternion.LookRotation(new Vector3(0.0f, 0.0f, target.transform.position.z)
-                - 
-                new Vector3(0.0f, 0.0f, enemy.position.z)), 
-                enemyRotationSpeed);
-            enemy.position += enemy.forward * enemyCurrentSpeed * Time.deltaTime;
-            float distance = Vector2.Distance(target.transform.position, enemy.position);
-            Vector2 structDirection = (target.transform.position - enemy.position).normalized;
-            float attackDirection = Vector2.Dot(structDirection, enemy.forward);
-
-            if (distance < attackDistance && attackDirection > 0)
-            {
-                if (attackTimer > 0)
-                {
-                    attackTimer -= Time.deltaTime;
-                }
-                if (attackTimer <= 0)
-                {
-                    TurretHP targethp = target.GetComponent<TurretHP>();
-                    if (targethp != null)
-                    {
-                        targethp.ChangeHP(-damage);
-                    }
-                }
-            }
-        }
-
-	}
     private GameObject NearestTurret()
     {
         float closestTurretDistance = 0;
@@ -79,9 +43,44 @@ public class EnemyAI : MonoBehaviour {
 
     }
 	
-	// Update is called once per frame
 	void Update()
 	{
-	    
-	}
+
+        if (target == null)
+        {
+            target = NearestTurret();
+        }
+        else
+        {
+            enemy.rotation = Quaternion.Lerp(enemy.rotation,
+                Quaternion.LookRotation(new Vector3(0.0f, 0.0f, target.transform.position.z)
+                -
+                new Vector3(0.0f, 0.0f, enemy.position.z)),
+                enemyRotationSpeed);
+
+            enemy.position += enemy.forward * enemyCurrentSpeed * Time.deltaTime;
+
+            float distance = Vector2.Distance(target.transform.position, enemy.position);
+            Vector2 structDirection = (target.transform.position - enemy.position).normalized;
+            float attackDirection = Vector2.Dot(structDirection, enemy.forward);
+
+            if (distance < attackDistance && attackDirection > 0)
+            {
+                if (attackTimer > 0)
+                {
+                    attackTimer -= Time.deltaTime;
+                }
+                if (attackTimer <= 0)
+                {
+                    TurretHP targethp = target.GetComponent<TurretHP>();
+                    if (targethp != null)
+                    {
+                        targethp.ChangeHP(-damage);
+                    }
+                    attackTimer = coolDown;
+                }
+            }
+        }
+
+    }
 }

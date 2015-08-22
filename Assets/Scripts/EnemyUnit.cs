@@ -1,17 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using System.Collections;
 
-public class NewBehaviourScript : MonoBehaviour {
-
-	// Use this for initialization
-	void Start()
-	{
-	
-	}
-	
-	// Update is called once per frame
-	void Update()
-	{
-	
-	}
+/// <summary>
+/// Base class for every unit in game
+/// </summary>
+public class EnemyUnit : MonoBehaviour
+{
+   
 }

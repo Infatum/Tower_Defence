@@ -8,7 +8,6 @@ public class BigTurretAI : MonoBehaviour {
     public GameObject cur_target;
     public float CurrentHP;
     public float BaseTurretRotationSpeed;
-    //public GameObject TurretObject;
     public float towerPrice = 100.0f;
     public float attackMaximumDistance = 50.0f;
     public float attackMinimumDistance = 1.0f;
@@ -17,38 +16,35 @@ public class BigTurretAI : MonoBehaviour {
     public float reloadTime = 2.5f;
     public const float ReloadTime = 2.5f;
     public float TurretRotationSpeed = 1.5f;
-    public bool targetInLOS;
+    public float rotationSpeed = 1.5f;
 
     public float reloadCooldown = 2.5f;
     public int FireOrder = 1;
-    public GameObject turretHead;
+    private Transform turretHeadTransform;
 
     
     void Start()
 	{
-        turretHead = GameObject.Find("BigTurret");
-        //GameObject turretHead_GO = GameObject.Find("BigTurret");
-        //if (!turretHead)
-        //{
-        //    Debug.LogError("ERROR: Script 'BigTurretAI.cs' disabled, can't find turretHead");
-        //    gameObject.SetActive(false);
-        //} else
-        //{
-        //    turretHead = turretHead_GO.transform;
-        //}
+        turretHeadTransform = transform.Find("Turret Head");
     }
 
 	void Update()
 	{
         if (cur_target != null)
         {
-            float distance = Vector2.Distance(turretHead.transform.position, cur_target.transform.position);
+            cur_target = FindNearestTarg();
+        }
+
+        if (cur_target != null)
+        {
+            float distance = Vector2.Distance(turretHeadTransform.position, cur_target.transform.position);
             if (attackMinimumDistance < distance && distance < attackMaximumDistance)
             {
-                Quaternion rotator = Quaternion.LookRotation(transform.position - cur_target.transform.position, Vector3.forward);
-                transform.rotation = rotator;
+                Vector3 vectorToTarget = turretHeadTransform.position - cur_target.transform.position;
+                turretHeadTransform.rotation = Quaternion.Slerp(turretHeadTransform.rotation, Quaternion.LookRotation(vectorToTarget, Vector3.forward), 1 * Time.deltaTime);
+                turretHeadTransform.eulerAngles = new Vector3(0f, 0f, turretHeadTransform.eulerAngles.z);
                 Debug.Log("rotation");
-                transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
+           
                 if (reloadTime > 0)
                 {
                     reloadTime -= Time.deltaTime;
@@ -64,10 +60,18 @@ public class BigTurretAI : MonoBehaviour {
                     {
                         case 1:
                             Debug.Log("First turret fire");
+                            if (enemyhp != null)
+                            {
+                                enemyhp.ChangeHP(-attackDamage);
+                            }
                             FireOrder++;
                             break;
                         case 2:
                             Debug.Log("Second turret fire");
+                            if (enemyhp != null)
+                            {
+                                enemyhp.ChangeHP(-attackDamage + 5f);
+                            }
                             FireOrder = 1;
                             break;
                     }
@@ -75,25 +79,33 @@ public class BigTurretAI : MonoBehaviour {
                 }
                 else
                 {
-                    cur_target = SortTargets();
+                    cur_target = FindNearestTarg();
                 }
             }
         }
     }
-    public GameObject SortTargets()
+
+    public GameObject FindNearestTarg()
     {
         float closestEnDist = 0;
         GameObject nearestEnemy = null;
-        List<GameObject> sortingMobs = GameObject.FindGameObjectsWithTag("Enemy").ToList();
-
-        foreach(var everyTarget in sortingMobs)
+        //List<GameObject> sortingMobs = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+        float dist = 0;
+        if (targets.Length < 1)
         {
-            if((Vector2.Distance(everyTarget.transform.position, turretHead.transform.position) < closestEnDist) || closestEnDist == 0)
+            targets = GameObject.FindGameObjectsWithTag("Enemy");
+        }
+
+        foreach (GameObject everyTarget in targets)
+        {
+            print(everyTarget.gameObject.name);
+            dist = Vector3.Distance(everyTarget.transform.position, turretHeadTransform.position);
+            if ((dist < closestEnDist) || closestEnDist == 0)
             {
-                closestEnDist = Vector2.Distance(everyTarget.transform.position, turretHead.transform.position);
+                closestEnDist = Vector3.Distance(everyTarget.transform.position, turretHeadTransform.position);
                 nearestEnemy = everyTarget;
             }
         }
-        return nearestEnemy;
+        return (closestEnDist > attackMaximumDistance) ? null : nearestEnemy;
     }
 }
