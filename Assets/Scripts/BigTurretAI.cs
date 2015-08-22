@@ -55,26 +55,8 @@ public class BigTurretAI : MonoBehaviour {
                 }
                 if (reloadTime == 0)
                 {
-                    EnemyHP enemyhp = cur_target.GetComponent<EnemyHP>();
-                    switch (FireOrder)
-                    {
-                        case 1:
-                            Debug.Log("First turret fire");
-                            if (enemyhp != null)
-                            {
-                                enemyhp.ChangeHP(-attackDamage);
-                            }
-                            FireOrder++;
-                            break;
-                        case 2:
-                            Debug.Log("Second turret fire");
-                            if (enemyhp != null)
-                            {
-                                enemyhp.ChangeHP(-attackDamage + 5f);
-                            }
-                            FireOrder = 1;
-                            break;
-                    }
+
+                    CauseDamage(5f, 25f);
                     reloadTime = reloadCooldown;
                 }
                 else
@@ -84,18 +66,25 @@ public class BigTurretAI : MonoBehaviour {
             }
         }
     }
-
+    public void CauseDamage(float min, float max)
+    {
+        EnemyHP enemyhp = cur_target.GetComponent<EnemyHP>();
+        if (enemyhp != null)
+        {
+            Debug.Log("Enemy HP before damage:" + enemyhp.currentHP);
+            attackDamage = Random.Range(min, max);
+            enemyhp.ChangeHP(-attackDamage);
+            Debug.Log("HP of enemy after shooting : " + enemyhp.currentHP);
+        }
+        
+    }
     public GameObject FindNearestTarg()
     {
         float closestEnDist = 0;
         GameObject nearestEnemy = null;
-        //List<GameObject> sortingMobs = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+        List<GameObject> sortingMobs = GameObject.FindGameObjectsWithTag("Enemy").ToList();
         float dist = 0;
-        if (targets.Length < 1)
-        {
             targets = GameObject.FindGameObjectsWithTag("Enemy");
-        }
-
         foreach (GameObject everyTarget in targets)
         {
             print(everyTarget.gameObject.name);
