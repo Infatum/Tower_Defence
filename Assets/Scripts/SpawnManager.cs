@@ -15,6 +15,7 @@ public class SpawnManager : MonoBehaviour
     public int maxWaves = 500;
     public Transform enemy;
     public GameObject[] SpawnPoints;
+    public GameObject[] pathPoints;
     private GlobalVars vars;
 
     private void Awake()

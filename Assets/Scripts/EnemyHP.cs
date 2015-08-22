@@ -25,7 +25,8 @@ public class EnemyHP : MonoBehaviour {
     }
     public void ChangeHP(float adjust)
     {
-        if((currentHP + adjust) > maxHP) { currentHP = maxHP; }
+        gameObject.GetComponent<Animation>().Play("Enemy_recieveDamage");
+        if ((currentHP + adjust) > maxHP) { currentHP = maxHP; }
         else
         {
             currentHP += adjust;

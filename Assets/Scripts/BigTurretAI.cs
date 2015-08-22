@@ -68,6 +68,7 @@ public class BigTurretAI : MonoBehaviour {
     }
     public void CauseDamage(float min, float max)
     {
+        turretHeadTransform.GetComponent<Animation>().Play("GunAttack");
         EnemyHP enemyhp = cur_target.GetComponent<EnemyHP>();
         if (enemyhp != null)
         {
@@ -78,6 +79,7 @@ public class BigTurretAI : MonoBehaviour {
         }
         
     }
+
     public GameObject FindNearestTarg()
     {
         float closestEnDist = 0;

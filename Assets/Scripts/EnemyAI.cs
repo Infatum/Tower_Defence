@@ -13,6 +13,7 @@ public class EnemyAI : MonoBehaviour {
     public float damage = 5f;
     public float attackTimer = 0f;
     public float coolDown = 2f;
+    public GameObject[] pathPoints;
 
     private float enemyCurrentSpeed;
     private Transform enemy;
@@ -42,7 +43,22 @@ public class EnemyAI : MonoBehaviour {
         return nearestTurret;
 
     }
-	
+    //public void Path()
+    //{
+    //    for(int i = 0; i < pathPoints.Length; i++)
+    //    {
+    //        pathPoints[i] = GameObject.FindWithTag("Path");
+    //        float distance = Vector3.Distance(enemy.transform.position, pathPoints[i].transform.position);
+    //        if (distance < 0.2f) {
+    //            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, pathPoints[i + 1].transform.position, 1f);
+    //        }
+    //        else
+    //        {
+    //             enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, pathPoints[i].transform.position, 1f);
+    //        }
+           
+    //    }
+    //}
 	void Update()
 	{
 
@@ -52,13 +68,14 @@ public class EnemyAI : MonoBehaviour {
         }
         else
         {
-            enemy.rotation = Quaternion.Lerp(enemy.rotation,
-                Quaternion.LookRotation(new Vector3(0.0f, 0.0f, target.transform.position.z)
-                -
-                new Vector3(0.0f, 0.0f, enemy.position.z)),
-                enemyRotationSpeed);
+            Vector3 direction = new Vector3(0.0f, 0.0f, target.transform.position.z) - new Vector3(0.0f, 0.0f, enemy.position.z);
+            enemy.rotation = Quaternion.Lerp(
+                enemy.rotation,
+                Quaternion.LookRotation(direction),
+                enemyRotationSpeed
+            );
 
-            enemy.position += enemy.forward * enemyCurrentSpeed * Time.deltaTime;
+            enemy.position += enemy.up * enemyCurrentSpeed * Time.deltaTime;
 
             float distance = Vector2.Distance(target.transform.position, enemy.position);
             Vector2 structDirection = (target.transform.position - enemy.position).normalized;
