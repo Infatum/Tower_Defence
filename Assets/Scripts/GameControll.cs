@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+
 class GameControll : MonoBehaviour {
     public static int scores = 0;
     public static int money = 200;
@@ -11,10 +12,12 @@ class GameControll : MonoBehaviour {
     public Text scoreText;
     public Text moneyText;
     public Text healthText;
-    
-	void Start()
-	{
 
+    bool menuOpened = false;
+    
+	void Awake()
+	{
+       
 	}
     public static void ChangePlayerHP(int diff)
     {
@@ -32,8 +35,22 @@ class GameControll : MonoBehaviour {
 	// Update is called once per frame
 	void Update()
     {
-        scoreText.text = "Scores :" /*+ scores*/;
-        moneyText.text = "Money : " /*+ money*/;
-        healthText.text = "Health : " /*+ playerHP*/;
+        scoreText.text = "Scores : " + scores;
+            //"Scores :" + scores;
+        moneyText.text = "Money : " + money;
+        healthText.text = "Health : " + playerHP;
+
+        bool isLastWave = GameObject.FindGameObjectWithTag("SpawnPoints").GetComponent<SpawnManager>().IsLastWave();
+        bool isNoEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length == 0;
+
+        if (isLastWave && isNoEnemies && !menuOpened)
+        {
+            menuOpened = true;
+            GameObject.Find("Menu Manager").GetComponent<MenuManager>().OpenMenu(true);
+
+        }
+        //{
+        //    enemy = GameObject.FindGameObjectWithTag("Enemy");
+        //}
     }
 }

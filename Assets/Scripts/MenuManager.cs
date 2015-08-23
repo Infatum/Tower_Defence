@@ -3,24 +3,34 @@ using System.Collections;
 
 public class MenuManager : MonoBehaviour
 {
-
-    public GameObject MenuPanel;
+    public GameObject menuPanel;
+    public bool escControlled = true;
 
     void Awake()
     {
-        if (!MenuPanel)
+        if (!menuPanel)
         {
             Debug.LogError("ERROR : Menu Manager required Menu Panel object");
             gameObject.SetActive(false);
         }
     }
-    // Update is called once per frame
+
+    public void OpenMenu(bool hard)
+    {
+        escControlled = !hard;
+        menuPanel.SetActive(!menuPanel.activeSelf);
+        if (menuPanel.activeSelf)
+        {
+            Time.timeScale = 0.0f;
+        }
+    }
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && escControlled)
         {
-            MenuPanel.SetActive(!MenuPanel.activeSelf);
-            if (MenuPanel.activeSelf)
+            menuPanel.SetActive(!menuPanel.activeSelf);
+            if (menuPanel.activeSelf)
             {
                 Time.timeScale = 0.0f;
             }
