@@ -2,12 +2,18 @@
 
 public class EnemyHP : MonoBehaviour
 {
+    /// <summary>
+    /// Enemy Hit Points Class;
+    /// </summary>
     public float maxHP = 100f;
     public Color MaxDamageColor = Color.red;
     public Color MinDamageColor = Color.blue;
 
     float currentHP;
 
+    /// <summary>
+    /// Indicate enemy color to red, when is near to death;
+    /// </summary>
     void Awake()
     {
         ChangeColor();
@@ -17,7 +23,13 @@ public class EnemyHP : MonoBehaviour
         }
         currentHP = maxHP;
     }
-
+    /// <summary>
+    /// Recieving damage method. Activates animation of a recieved damage by enemy;
+    /// Activates sounds of a receiving damage by enemy;
+    /// Substacts enemies health point;
+    /// Causes death of enemy, if it's health points are 0;
+    /// </summary>
+    /// <param name="damage">damage value</param>
     public void ReceiveDamage(float damage)
     {
         gameObject.GetComponent<Animation>().Play("Enemy_RecieveDamage", PlayMode.StopAll);
@@ -36,19 +48,26 @@ public class EnemyHP : MonoBehaviour
             Die();
         }
     }
-
+    /// <summary>
+    /// Causes death to enemy, destroys it's gameobject;
+    /// Increases player's Score and Money value;
+    /// </summary>
    public void Die()
     {
         GameControll.ScoreEngage(5);
         GameControll.Money(15);
         Destroy(gameObject, 0.05f);
     }
-
+    /// <summary>
+    /// Changes color of the enemy, if it's near to death;
+    /// </summary>
     void Update()
     {
         ChangeColor();
     }
-
+    /// <summary>
+    /// Change color method. Changes color of the enemy, if it's near to death;
+    /// </summary>
     void ChangeColor()
     {
         gameObject.GetComponent<Renderer>().material.color = Color.Lerp(MaxDamageColor, MinDamageColor, currentHP / maxHP);

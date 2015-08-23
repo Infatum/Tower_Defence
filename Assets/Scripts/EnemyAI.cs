@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class EnemyAI : MonoBehaviour
 {
+    /// <summary>
+    /// Enemy AI class
+    /// </summary>
     public float enemyMinSpeed = 0.1f;
     public float enemyMaxSpeed = 0.5f;
     public float enemyRotationSpeed = 2.5f;
@@ -15,6 +18,11 @@ public class EnemyAI : MonoBehaviour
     public List<GameObject> pathPoints;
     int currentPathPoint = 0;
 
+    /// <summary>
+    /// Sets the enemy current random speed for each enemy in a scene;
+    /// Picks pathpoints to build a peth for an enemy to move on;
+    /// Generates random path for each spawn waves of enemies;
+    /// </summary>
     void Awake()
     {
         enemyCurrentSpeed = Random.Range(enemyMinSpeed, enemyMaxSpeed);
@@ -22,7 +30,10 @@ public class EnemyAI : MonoBehaviour
         
         pathPoints = GameObject.FindGameObjectsWithTag((path1) ? "Path" : "Path2").OrderBy(go => go.name).ToList();
     }
-
+    /// <summary>
+    /// Update method per frame. Moves enemy by path.Rotates target to a path point;
+    /// Destroys enemy if he reaches last point in Path Points;
+    /// </summary>
     void Update()
     {
         try
@@ -51,7 +62,10 @@ public class EnemyAI : MonoBehaviour
         // Move to up
         transform.position += transform.up * enemyCurrentSpeed * Time.deltaTime;
     }
-    //Gets the nearest pathpoint to which moves on
+    /// <summary>
+    /// Gets the nearest pathpoint to which moves on
+    /// </summary>
+    /// <returns></returns>
     GameObject GetNearestPoint()
     {
         
@@ -65,14 +79,6 @@ public class EnemyAI : MonoBehaviour
             Destroy(gameObject);
             GameControll.ChangePlayerHP(-10);
         }
-        //try
-        //{
-
-        //}
-        //catch (System.ArgumentOutOfRangeException)
-        //{
-
-        //}
         return pathPoints[currentPathPoint];
     }
 

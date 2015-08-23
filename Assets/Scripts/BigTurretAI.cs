@@ -4,6 +4,9 @@ using System.Linq;
 
 public class BigTurretAI : MonoBehaviour
 {
+    /// <summary>
+    /// AI of the game turret
+    /// </summary>
     public GameObject cur_target;
     public float CurrentHP;
     public float BaseTurretRotationSpeed;
@@ -20,12 +23,19 @@ public class BigTurretAI : MonoBehaviour
     public int FireOrder = 1;
     private GameObject turretHead;
 
-
+    /// <summary>
+    /// Start method, finding turretHead in Turret game objects
+    /// </summary>
     void Start()
     {
-        turretHead = transform.GetChild(0).gameObject; // .Find("Turret Head");
+        turretHead = transform.GetChild(0).gameObject; 
     }
-
+    /// <summary>
+    /// Update method per frame. Searches for the nearest target to attack, if finds it calculates distance between target and turret gun;
+    /// Rotates the gun in a way to a target;
+    /// Attacks the target;
+    /// Animates the gun attack;
+    /// </summary>
     void Update()
     {
         cur_target = FindNearestTarg();
@@ -62,6 +72,11 @@ public class BigTurretAI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Causes damage to the target in range of minimal and maximal damage value;
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
     public void CauseDamage(float min, float max)
     {
         turretHead.GetComponent<Animation>().Play("GunAttack");
@@ -72,12 +87,11 @@ public class BigTurretAI : MonoBehaviour
             attackDamage = Random.Range(min, max);
             enemyhp.ReceiveDamage(attackDamage);
         }
-        //if (FindNearestTarg() == null)
-        //{
-        //    turretHeadTransform.GetComponent<Animation>().Stop("GunFireAnimation");
-        //}
     }
-
+    /// <summary>
+    /// Search for enemy;
+    /// </summary>
+    /// <returns>GameObject of a nearest target(enemy)</returns>
     public GameObject FindNearestTarg()
     {
         float closestEnDist = 0;

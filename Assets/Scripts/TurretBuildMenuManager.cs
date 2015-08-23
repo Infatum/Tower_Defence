@@ -3,6 +3,9 @@ using System.Collections;
 
 public class TurretBuildMenuManager : MonoBehaviour
 {
+    /// <summary>
+    /// Main Turret Build Class;
+    /// </summary>
     public GameObject turretBuildMenuPanel;
     public GameObject turretPrefab1;
     public GameObject turretPrefab2;
@@ -10,6 +13,11 @@ public class TurretBuildMenuManager : MonoBehaviour
     float lastTimeScale;
     Transform buildTransform;
 
+    /// <summary>
+    /// Update method;
+    /// Pics a point of a mouse for the Collider of a Build Plate;
+    /// Opens turret build manager
+    /// </summary>
     void Awake()
     {
         if (!turretBuildMenuPanel)
@@ -18,21 +26,29 @@ public class TurretBuildMenuManager : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-
+    /// <summary>
+    /// Opens Building menu, where player buys new buildings or upgrades exsisting;
+    /// </summary>
+    /// <param name="reqBuildTransform">Transform required bulding</param>
     void OpenBuildPanel(Transform reqBuildTransform)
     {
         turretBuildMenuPanel.SetActive(true);
         Time.timeScale = 0f;
         buildTransform = reqBuildTransform;
     }
-
+    /// <summary>
+    /// Closes the build menu;
+    /// </summary>
     public void CloseBuildPanel()
     {
         turretBuildMenuPanel.SetActive(false);
         Time.timeScale = 1f;
         buildTransform = null;
     }
-
+    /// <summary>
+    /// Builds a new turret by the ID of it;
+    /// </summary>
+    /// <param name="id">int ID of a turret</param>
     public void BuildTurret(int id)
     {
         int playerMoney = 0;

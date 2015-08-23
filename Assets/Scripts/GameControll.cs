@@ -49,8 +49,5 @@ class GameControll : MonoBehaviour {
             GameObject.Find("Menu Manager").GetComponent<MenuManager>().OpenMenu(true);
 
         }
-        //{
-        //    enemy = GameObject.FindGameObjectWithTag("Enemy");
-        //}
     }
 }
