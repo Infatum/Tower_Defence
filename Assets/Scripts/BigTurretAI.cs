@@ -18,12 +18,12 @@ public class BigTurretAI : MonoBehaviour
 
     public float reloadCooldown = 2.5f;
     public int FireOrder = 1;
-    private Transform turretHeadTransform;
+    private GameObject turretHead;
 
 
     void Start()
     {
-        turretHeadTransform = transform.Find("Turret Head");
+        turretHead = transform.GetChild(0).gameObject; // .Find("Turret Head");
     }
 
     void Update()
@@ -32,12 +32,12 @@ public class BigTurretAI : MonoBehaviour
 
         if (cur_target != null)
         {
-            float distance = Vector2.Distance(turretHeadTransform.position, cur_target.transform.position);
+            float distance = Vector2.Distance(turretHead.transform.position, cur_target.transform.position);
             if (attackMinimumDistance < distance && distance < attackMaximumDistance)
             {
-                Vector3 vectorToTarget = turretHeadTransform.position - cur_target.transform.position;
-                turretHeadTransform.rotation = Quaternion.Slerp(turretHeadTransform.rotation, Quaternion.LookRotation(vectorToTarget, Vector3.forward), TurretRotationSpeed * Time.deltaTime);
-                turretHeadTransform.eulerAngles = new Vector3(0f, 0f, turretHeadTransform.eulerAngles.z);
+                Vector3 vectorToTarget = turretHead.transform.position - cur_target.transform.position;
+                turretHead.transform.rotation = Quaternion.Slerp(turretHead.transform.rotation, Quaternion.LookRotation(vectorToTarget, Vector3.forward), TurretRotationSpeed * Time.deltaTime);
+                turretHead.transform.eulerAngles = new Vector3(0f, 0f, turretHead.transform.eulerAngles.z);
 
                 if (reloadTime > 0)
                 {
@@ -49,7 +49,7 @@ public class BigTurretAI : MonoBehaviour
                 }
                 if (reloadTime == 0)
                 {
-                    turretHeadTransform.GetComponent<Animation>().Stop("GunFireAnimation");
+                    turretHead.GetComponent<Animation>().Stop("GunFireAnimation");
 
                     CauseDamage(5f, 25f);
                     reloadTime = reloadCooldown;
@@ -64,8 +64,8 @@ public class BigTurretAI : MonoBehaviour
 
     public void CauseDamage(float min, float max)
     {
-        turretHeadTransform.GetComponent<Animation>().Play("GunAttack");
-        turretHeadTransform.GetChild(0).gameObject.GetComponent<Animator>().StartPlayback();
+        turretHead.GetComponent<Animation>().Play("GunAttack");
+        turretHead.transform.GetChild(0).gameObject.GetComponent<Animator>().StartPlayback();
         EnemyHP enemyhp = cur_target.GetComponent<EnemyHP>();
         if (enemyhp != null)
         {
@@ -86,15 +86,13 @@ public class BigTurretAI : MonoBehaviour
         float dist = 0;
         foreach (GameObject everyTarget in sortingMobs)
         {
-            dist = Vector3.Distance(everyTarget.transform.position, turretHeadTransform.position);
+            dist = Vector3.Distance(everyTarget.transform.position, turretHead.transform.position);
             if ((dist < closestEnDist) || closestEnDist == 0)
             {
-                closestEnDist = Vector3.Distance(everyTarget.transform.position, turretHeadTransform.position);
+                closestEnDist = Vector3.Distance(everyTarget.transform.position, turretHead.transform.position);
                 nearestEnemy = everyTarget;
             }
         }
-        Debug.Log("enemy dist " + closestEnDist);
         return (closestEnDist > attackMaximumDistance) ? null : nearestEnemy;
-        
     }
 }

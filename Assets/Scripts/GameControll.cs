@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine.UI;
 
-public class GameControll : MonoBehaviour {
+class GameControll : MonoBehaviour {
     public static int scores = 0;
     public static int money = 200;
     public static int playerHP = 100;
+    public static int bigTurretCost = 70;
+    public static int smallTurretCost = 50;
 
     public Text scoreText;
     public Text moneyText;
-    public Text health;
+    public Text healthText;
     
 	void Start()
 	{
@@ -32,9 +31,9 @@ public class GameControll : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update()
-	{
-        scoreText.text = "Scores :" + scores;
-        moneyText.text = "Money : " + money;
-        health.text = "Health : " + playerHP;
+    {
+        scoreText.text = "Scores :" /*+ scores*/;
+        moneyText.text = "Money : " /*+ money*/;
+        healthText.text = "Health : " /*+ playerHP*/;
     }
 }

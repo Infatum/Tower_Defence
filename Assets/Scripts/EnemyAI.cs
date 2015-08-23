@@ -25,7 +25,16 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        target = GetNearestPoint();
+        try
+        {
+            target = GetNearestPoint();
+        }
+        catch(System.ArgumentOutOfRangeException)
+        {
+            Destroy(gameObject);
+            GameControll.ChangePlayerHP(-10);
+            return;
+        }
         if (target == null)
         {
             return;
@@ -56,15 +65,15 @@ public class EnemyAI : MonoBehaviour
             Destroy(gameObject);
             GameControll.ChangePlayerHP(-10);
         }
-        try {
-            return pathPoints[currentPathPoint];
-        }
-        catch (System.ArgumentOutOfRangeException)
-        {
-            Destroy(gameObject);
-            GameControll.ChangePlayerHP(-10);
-            return null;
-        }
+        //try
+        //{
+
+        //}
+        //catch (System.ArgumentOutOfRangeException)
+        //{
+
+        //}
+        return pathPoints[currentPathPoint];
     }
 
 }
