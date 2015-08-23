@@ -21,6 +21,7 @@ public class EnemyHP : MonoBehaviour
     public void ReceiveDamage(float damage)
     {
         gameObject.GetComponent<Animation>().Play("Enemy_RecieveDamage", PlayMode.StopAll);
+        gameObject.GetComponent<AudioSource>().Play();
         if ((currentHP - damage) > maxHP)
         {
             currentHP = maxHP;
@@ -32,13 +33,15 @@ public class EnemyHP : MonoBehaviour
 
         if (currentHP <= 0)
         {
-            gameObject.SendMessage("Die", SendMessageOptions.DontRequireReceiver);
+            Die();
         }
     }
 
-    void Die()
+   public void Die()
     {
-        Destroy(gameObject);
+        GameControll.ScoreEngage(5);
+        GameControll.Money(15);
+        Destroy(gameObject, 0.05f);
     }
 
     void Update()

@@ -13,42 +13,37 @@ public class SpawnManager : MonoBehaviour
     public float waveDelayTimer = 3f;
     public float waveCoolDown = 20f;
     public int maxWaves = 500;
-    public Transform enemy;
+    public GameObject enemy;
+    public int[] enemyCount;
     public GameObject[] SpawnPoints;
     public GameObject[] pathPoints;
-    private GlobalVars vars;
 
     private void Awake()
     {
-        SpawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
-        vars = GameObject.Find("GlobalVars").GetComponent<GlobalVars>();
+        SpawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoints").ToArray<GameObject>();
     }
 
     private void Update()
     {
         if (waveDelayTimer > 0)
         {
-            if (vars != null)
-            {
-                if(vars.EnemyCount == 0)
-                {
-                    waveDelayTimer = 0;
-                }
+            waveDelayTimer -= Time.deltaTime;
+        }
                 else
                 {
-                    waveDelayTimer -= Time.deltaTime;
+                     waveDelayTimer = 0;
                 }
-            }
-        }
+            
         if (waveDelayTimer <= 0)
         {
             if (SpawnPoints != null && waveNumber < maxWaves)
             {
+                Debug.Log(SpawnPoints.Length);
                 foreach(GameObject spawnpoint in SpawnPoints)
                 {
                     for (int i = 0; i < waveAmount; i++)
                     {
-                        Instantiate(enemy, new Vector3(spawnpoint.transform.position.x, spawnpoint.transform.position.y + i * 0.5f, spawnpoint.transform.position.z), Quaternion.identity);
+                            Instantiate(enemy, new Vector3(transform.position.x + i * 0.3f, transform.position.y, 0.0f), Quaternion.identity);
                     }
                     if (waveDelayTimer > 5)
                     {

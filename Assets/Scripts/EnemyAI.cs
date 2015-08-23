@@ -10,9 +10,8 @@ public class EnemyAI : MonoBehaviour
     public float closestTargetDistance = 2f;
 
     float enemyCurrentSpeed;
-    GlobalVars vars;
     GameObject target;
-    List<GameObject> pathPoints;
+    public List<GameObject> pathPoints;
     int currentPathPoint = 0;
 
     void Awake()
@@ -37,15 +36,20 @@ public class EnemyAI : MonoBehaviour
         // Move to up
         transform.position += transform.up * enemyCurrentSpeed * Time.deltaTime;
     }
-
+    //Gets the nearest pathpoint to wich moves on
     GameObject GetNearestPoint()
     {
         if (Vector2.Distance(transform.position, pathPoints[currentPathPoint].transform.position) <= closestTargetDistance)
         {
-            // FIXED OutOfRange
-            currentPathPoint = System.Math.Min(++currentPathPoint, pathPoints.Count - 1);
+            currentPathPoint++;
+            if (currentPathPoint == pathPoints.Count)
+            {
+                GameControll.ChangePlayerHP(-10);
+                Destroy(gameObject);
+            }
         }
 
         return pathPoints[currentPathPoint];
     }
+
 }
