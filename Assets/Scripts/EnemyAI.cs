@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
+
 public class EnemyAI : MonoBehaviour
 {
     public float enemyMinSpeed = 0.1f;
@@ -17,13 +18,18 @@ public class EnemyAI : MonoBehaviour
     void Awake()
     {
         enemyCurrentSpeed = Random.Range(enemyMinSpeed, enemyMaxSpeed);
-        pathPoints = GameObject.FindGameObjectsWithTag("Path").OrderBy(go => go.name).ToList();
+        bool path1 = Random.value >= 0.5;
+        
+        pathPoints = GameObject.FindGameObjectsWithTag((path1) ? "Path" : "Path2").OrderBy(go => go.name).ToList();
     }
 
     void Update()
     {
         target = GetNearestPoint();
-
+        if (target == null)
+        {
+            return;
+        }
         // Rotate to target
         Vector3 vectorToTarget = transform.position - target.transform.position;
         transform.rotation = Quaternion.Slerp(
@@ -36,20 +42,29 @@ public class EnemyAI : MonoBehaviour
         // Move to up
         transform.position += transform.up * enemyCurrentSpeed * Time.deltaTime;
     }
-    //Gets the nearest pathpoint to wich moves on
+    //Gets the nearest pathpoint to which moves on
     GameObject GetNearestPoint()
     {
-        if (Vector2.Distance(transform.position, pathPoints[currentPathPoint].transform.position) <= closestTargetDistance)
-        {
-            currentPathPoint++;
-            if (currentPathPoint == pathPoints.Count)
+        
+            if (Vector2.Distance(transform.position, pathPoints[currentPathPoint].transform.position) <= closestTargetDistance)
             {
-                GameControll.ChangePlayerHP(-10);
-                Destroy(gameObject);
+                currentPathPoint++;
             }
+        
+        if (currentPathPoint == pathPoints.Count)
+        {
+            Destroy(gameObject);
+            GameControll.ChangePlayerHP(-10);
         }
-
-        return pathPoints[currentPathPoint];
+        try {
+            return pathPoints[currentPathPoint];
+        }
+        catch (System.ArgumentOutOfRangeException)
+        {
+            Destroy(gameObject);
+            GameControll.ChangePlayerHP(-10);
+            return null;
+        }
     }
 
 }

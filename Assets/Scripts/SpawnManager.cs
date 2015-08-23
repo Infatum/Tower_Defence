@@ -29,41 +29,39 @@ public class SpawnManager : MonoBehaviour
         {
             waveDelayTimer -= Time.deltaTime;
         }
-                else
-                {
-                     waveDelayTimer = 0;
-                }
-            
+        else
+        {
+            waveDelayTimer = 0;
+        }
+
         if (waveDelayTimer <= 0)
         {
             if (SpawnPoints != null && waveNumber < maxWaves)
             {
                 Debug.Log(SpawnPoints.Length);
-                foreach(GameObject spawnpoint in SpawnPoints)
+                foreach (GameObject spawnpoint in SpawnPoints)
                 {
-                    for (int i = 0; i < waveAmount; i++)
+                    if (waveNumber < maxWaves)
                     {
-                            Instantiate(enemy, new Vector3(transform.position.x + i * 0.3f, transform.position.y, 0.0f), Quaternion.identity);
+                        Instantiate(enemy, new Vector3(transform.position.x + 1 * 0.3f, transform.position.y, 0.0f), Quaternion.identity);
+                        if (waveDelayTimer > 5)
+                        {
+                            waveDelayTimer -= 0.1f;
+                            waveDelayTimer = waveCoolDown;
+                        }
+                        else
+                        {
+                            waveCoolDown = 5f;
+                            waveDelayTimer = waveCoolDown;
+                        }
+                        if (waveCoolDown >= 50)
+                        {
+                            waveAmount = 10;
+                        }
+                        waveNumber++;
                     }
-                    if (waveDelayTimer > 5)
-                    {
-                        waveDelayTimer -= 0.1f;
-                        waveDelayTimer = waveCoolDown;
-                    }
-                    else
-                    {
-                        waveCoolDown = 5f;
-                        waveDelayTimer = waveCoolDown;
-                    }
-                    if (waveCoolDown >= 50)
-                    {
-                        waveAmount = 10;
-                    }
-                    waveNumber++;
                 }
             }
         }
     }
-
-
 }
