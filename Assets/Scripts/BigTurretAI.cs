@@ -8,17 +8,16 @@ public class BigTurretAI : MonoBehaviour
     /// AI of the game turret
     /// </summary>
     public GameObject cur_target;
-    public float CurrentHP;
-    public float BaseTurretRotationSpeed;
+    public float currentHP;
+    public float baseTurretRotationSpeed;
     public float towerPrice = 100.0f;
     public float attackMaximumDistance = 50.0f;
     public float attackMinimumDistance = 1.0f;
     public float seingMaximumDistance = 1.8f;
     public float attackDamage = 10.0f;
-    public float reloadTime = 2.5f;
-    public const float ReloadTime = 2.5f;
-    public float TurretRotationSpeed = 1.5f;
-
+    public const float reloadTime = 2.5f;
+    public float reloadTIME = 2.5f;
+    public float turretRotationSpeed = 1.5f;
     public float reloadCooldown = 2.5f;
     public int FireOrder = 1;
     private GameObject turretHead;
@@ -46,23 +45,23 @@ public class BigTurretAI : MonoBehaviour
             if (attackMinimumDistance < distance && distance < attackMaximumDistance)
             {
                 Vector3 vectorToTarget = turretHead.transform.position - cur_target.transform.position;
-                turretHead.transform.rotation = Quaternion.Slerp(turretHead.transform.rotation, Quaternion.LookRotation(vectorToTarget, Vector3.forward), TurretRotationSpeed * Time.deltaTime);
+                turretHead.transform.rotation = Quaternion.Slerp(turretHead.transform.rotation, Quaternion.LookRotation(vectorToTarget, Vector3.forward), turretRotationSpeed * Time.deltaTime);
                 turretHead.transform.eulerAngles = new Vector3(0f, 0f, turretHead.transform.eulerAngles.z);
 
-                if (reloadTime > 0)
+                if (reloadTIME > 0)
                 {
-                    reloadTime -= Time.deltaTime;
+                    reloadTIME -= Time.deltaTime;
                 }
-                if (reloadTime < 0)
+                if (reloadTIME < 0)
                 {
-                    reloadTime = 0;
+                    reloadTIME = 0;
                 }
                 if (reloadTime == 0)
                 {
                     turretHead.GetComponent<Animation>().Stop("GunFireAnimation");
 
                     CauseDamage(5f, 25f);
-                    reloadTime = reloadCooldown;
+                    reloadTIME = reloadCooldown;
                 }
                 else
                 {

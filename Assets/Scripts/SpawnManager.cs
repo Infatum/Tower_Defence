@@ -17,7 +17,7 @@ public class SpawnManager : MonoBehaviour
     public int maxWaves = 500;
     public GameObject enemy;
     public int[] enemyCount;
-    public GameObject[] SpawnPoints;
+    public GameObject[] spawnPoints;
     public GameObject[] pathPoints;
 
     /// <summary>
@@ -25,7 +25,7 @@ public class SpawnManager : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        SpawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoints").ToArray<GameObject>();
+        spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoints").ToArray<GameObject>();
     }
     /// <summary>
     /// Check's if current wave of enemies is the last one for this level;

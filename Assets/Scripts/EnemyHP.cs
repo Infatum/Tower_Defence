@@ -37,6 +37,7 @@ public class EnemyHP : MonoBehaviour
         if ((currentHP - damage) > maxHP)
         {
             currentHP = maxHP;
+            ChangeColor();
         }
         else
         {
@@ -46,6 +47,7 @@ public class EnemyHP : MonoBehaviour
         if (currentHP <= 0)
         {
             Die();
+
         }
     }
     /// <summary>
@@ -63,7 +65,7 @@ public class EnemyHP : MonoBehaviour
     /// </summary>
     void Update()
     {
-        ChangeColor();
+        
     }
     /// <summary>
     /// Change color method. Changes color of the enemy, if it's near to death;

@@ -12,10 +12,10 @@ public class EnemyAI : MonoBehaviour
     public float enemyMaxSpeed = 0.5f;
     public float enemyRotationSpeed = 2.5f;
     public float closestTargetDistance = 2f;
+    public List<GameObject> pathPoints;
 
     float enemyCurrentSpeed;
     GameObject target;
-    public List<GameObject> pathPoints;
     int currentPathPoint = 0;
 
     /// <summary>
@@ -61,6 +61,7 @@ public class EnemyAI : MonoBehaviour
 
         // Move to up
         transform.position += transform.up * enemyCurrentSpeed * Time.deltaTime;
+
     }
     /// <summary>
     /// Gets the nearest pathpoint to which moves on
