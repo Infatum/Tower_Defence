@@ -29,6 +29,10 @@ public class EnemyAI : MonoBehaviour
         bool path1 = Random.value >= 0.5;
         
         pathPoints = GameObject.FindGameObjectsWithTag((path1) ? "Path" : "Path2").OrderBy(go => go.name).ToList();
+        if (pathPoints.Count == 0)
+        {
+            pathPoints = GameObject.FindGameObjectsWithTag("Path").OrderBy(go => go.name).ToList();
+        }
     }
     /// <summary>
     /// Update method per frame. Moves enemy by path.Rotates target to a path point;

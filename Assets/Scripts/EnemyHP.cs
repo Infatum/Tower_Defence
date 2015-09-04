@@ -10,6 +10,7 @@ public class EnemyHP : MonoBehaviour
     public Color MinDamageColor = Color.blue;
 
     float currentHP;
+    float oldHP = -1;
 
     /// <summary>
     /// Indicate enemy color to red, when is near to death;
@@ -65,18 +66,17 @@ public class EnemyHP : MonoBehaviour
     /// </summary>
     void Update()
     {
-        
+        ChangeColor();
     }
     /// <summary>
     /// Change color method. Changes color of the enemy, if it's near to death;
     /// </summary>
     void ChangeColor()
     {
-        gameObject.GetComponent<Renderer>().material.color = Color.Lerp(MaxDamageColor, MinDamageColor, currentHP / maxHP);
-    }
-
-    void OnDestroy()
-    {
-        
+        if (oldHP != currentHP)
+        {
+            oldHP = currentHP;
+            gameObject.GetComponent<Renderer>().material.color = Color.Lerp(MaxDamageColor, MinDamageColor, currentHP / maxHP);
+        }
     }
 }

@@ -8,7 +8,6 @@ class GameControll : MonoBehaviour {
     public static int playerHP = 100;
     public static int bigTurretCost = 70;
     public static int smallTurretCost = 50;
-
     public Text scoreText;
     public Text moneyText;
     public Text healthText;

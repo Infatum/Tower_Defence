@@ -6,12 +6,16 @@ public class TurretBuildMenuManager : MonoBehaviour
     /// <summary>
     /// Main Turret Build Class;
     /// </summary>
+    public static TurretBuildMenuManager instance = null;
     public GameObject turretBuildMenuPanel;
     public GameObject turretPrefab1;
     public GameObject turretPrefab2;
 
+
     float lastTimeScale;
     Transform buildTransform;
+
+   
 
     /// <summary>
     /// Update method;
@@ -25,12 +29,13 @@ public class TurretBuildMenuManager : MonoBehaviour
             Debug.LogError("ERROR: Turret Build Menu Manager required Turret Build Menu object.");
             gameObject.SetActive(false);
         }
+        instance = this;
     }
     /// <summary>
     /// Opens Building menu, where player buys new buildings or upgrades exsisting;
     /// </summary>
     /// <param name="reqBuildTransform">Transform required bulding</param>
-    void OpenBuildPanel(Transform reqBuildTransform)
+    public void OpenBuildPanel(Transform reqBuildTransform)
     {
         turretBuildMenuPanel.SetActive(true);
         Time.timeScale = 0f;

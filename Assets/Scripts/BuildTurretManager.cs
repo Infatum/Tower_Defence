@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 
 public class BuildTurretManager : MonoBehaviour
@@ -27,7 +28,7 @@ public class BuildTurretManager : MonoBehaviour
             {
                 if (hitCollider.gameObject.CompareTag("Turret Plate"))
                 {
-                    GameObject.Find("Build Menu Manager").SendMessage("OpenBuildPanel", hitCollider.transform);
+                    TurretBuildMenuManager.instance.OpenBuildPanel(hitCollider.transform);
                 }
             }
         }
