@@ -15,8 +15,6 @@ public class TurretBuildMenuManager : MonoBehaviour
     float lastTimeScale;
     Transform buildTransform;
 
-   
-
     /// <summary>
     /// Update method;
     /// Pics a point of a mouse for the Collider of a Build Plate;

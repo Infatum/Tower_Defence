@@ -62,7 +62,6 @@ public class EnemyAI : MonoBehaviour
             enemyRotationSpeed * Time.deltaTime
         );
         transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
-
         // Move to up
         transform.position += transform.up * enemyCurrentSpeed * Time.deltaTime;
 

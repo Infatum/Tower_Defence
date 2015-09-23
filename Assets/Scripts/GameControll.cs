@@ -35,7 +35,6 @@ class GameControll : MonoBehaviour {
 	void Update()
     {
         scoreText.text = "Scores : " + scores;
-            //"Scores :" + scores;
         moneyText.text = "Money : " + money;
         healthText.text = "Health : " + playerHP;
 

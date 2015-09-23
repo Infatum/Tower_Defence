@@ -13,7 +13,7 @@ public class EnemyHP : MonoBehaviour
     float oldHP = -1;
 
     /// <summary>
-    /// Indicate enemy color to red, when is near to death;
+    /// Indicate enemy color to red, when it is near to death;
     /// </summary>
     void Awake()
     {
@@ -27,7 +27,7 @@ public class EnemyHP : MonoBehaviour
     /// <summary>
     /// Recieving damage method. Activates animation of a recieved damage by enemy;
     /// Activates sounds of a receiving damage by enemy;
-    /// Substacts enemies health point;
+    /// Substracts enemies health point;
     /// Causes death of enemy, if it's health points are 0;
     /// </summary>
     /// <param name="damage">damage value</param>

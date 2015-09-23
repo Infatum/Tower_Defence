@@ -28,7 +28,7 @@ public class SpawnManager : MonoBehaviour
         spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoints").ToArray<GameObject>();
     }
     /// <summary>
-    /// Check's if current wave of enemies is the last one for this level;
+    /// Checks if current wave of enemies is the last one for this level;
     /// </summary>
     /// <returns>bool</returns>
     public bool IsLastWave()

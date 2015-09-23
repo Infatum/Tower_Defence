@@ -29,7 +29,7 @@ public class BigTurretAI : MonoBehaviour
         turretHead = transform.GetChild(0).gameObject; 
     }
     /// <summary>
-    /// Update method per frame. Searches for the nearest target to attack, if finds it calculates distance between target and turret gun;
+    /// Update method per frame. Searches for the nearest target to attack, if finds it, calculates distance between target and turret gun;
     /// Rotates the gun in a way to a target;
     /// Attacks the target;
     /// Animates the gun attack;
@@ -105,25 +105,6 @@ public class BigTurretAI : MonoBehaviour
                 nearestEnemy = everyTarget;
             }
         }
-        //if (reloadTIME > 0f)
-        //{
-        //    reloadTIME -= Time.deltaTime;
-        //}
-        //if (reloadTime < 0.1f)
-        //{
-        //    turretHead.GetComponent<Animation>().Stop("GunFireAnimation");
-
-        //    CauseDamage(5f, 25f);
-        //    reloadTIME = reloadCooldown;
-        //}
-        //if (reloadTIME < 0f)
-        //{
-        //    reloadTIME = 0f;
-        //}
-        //else
-        //{
-        //    curTarget = FindNearestTarg();
-        //}
         return (closestEnDist > seingMaximumDistance) ? null : nearestEnemy;
     }
 }
