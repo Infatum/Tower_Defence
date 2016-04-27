@@ -5,9 +5,12 @@ public class EnemyHP : MonoBehaviour
     /// <summary>
     /// Enemy Hit Points Class;
     /// </summary>
-    public float maxHP = 100f;
-    public Color MaxDamageColor = Color.red;
-    public Color MinDamageColor = Color.blue;
+    [SerializeField]
+    private float maxHP = 100f;
+    [SerializeField]
+    private Color MaxDamageColor = Color.red;
+    [SerializeField]
+    private Color MinDamageColor = Color.blue;
 
     float currentHP;
     float oldHP = -1;
@@ -58,7 +61,7 @@ public class EnemyHP : MonoBehaviour
    public void Die()
     {
         GameControll.ScoreEngage(5);
-        GameControll.Money(15);
+        GameControll.money += 3;
         Destroy(gameObject, 0.05f);
     }
     /// <summary>

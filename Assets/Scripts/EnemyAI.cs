@@ -8,11 +8,16 @@ public class EnemyAI : MonoBehaviour
     /// <summary>
     /// Enemy AI class
     /// </summary>
-    public float enemyMinSpeed = 0.1f;
-    public float enemyMaxSpeed = 0.5f;
-    public float enemyRotationSpeed = 2.5f;
-    public float closestTargetDistance = 2f;
-    public List<GameObject> pathPoints;
+    [SerializeField]
+    private float enemyMinSpeed = 0.1f;
+    [SerializeField]
+    private float enemyMaxSpeed = 0.5f;
+    [SerializeField]
+    private float enemyRotationSpeed = 2.5f;
+    [SerializeField]
+    private float closestTargetDistance = 2f;
+    [SerializeField]
+    private List<GameObject> pathPoints;
 
     float enemyCurrentSpeed;
     GameObject target;
@@ -27,7 +32,6 @@ public class EnemyAI : MonoBehaviour
     {
         enemyCurrentSpeed = Random.Range(enemyMinSpeed, enemyMaxSpeed);
         bool path1 = Random.value >= 0.5;
-        
         pathPoints = GameObject.FindGameObjectsWithTag((path1) ? "Path" : "Path2").OrderBy(go => go.name).ToList();
         if (pathPoints.Count == 0)
         {

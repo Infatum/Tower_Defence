@@ -7,18 +7,31 @@ public class BigTurretAI : MonoBehaviour
     /// <summary>
     /// AI of the game turret
     /// </summary>
-    public GameObject curTarget;
-    public float currentHP;
-    public float baseTurretRotationSpeed;
-    public float towerPrice = 100.0f;
-    public float attackMaximumDistance = 50.0f;
-    public float attackMinimumDistance = 1.0f;
-    public float seingMaximumDistance = 1.8f;
-    public float attackDamage = 10.0f;
-    public float reloadTIME = 2.5f;
-    public float turretRotationSpeed = 1.5f;
-    public float reloadCooldown = 2.5f;
-    public int FireOrder = 1;
+    [SerializeField]
+    private GameObject curTarget;
+    [SerializeField]
+    private float currentHP;
+    [SerializeField]
+    private float baseTurretRotationSpeed;
+    [SerializeField]
+    private float towerPrice = 100.0f;
+    [SerializeField]
+    private float attackMaximumDistance = 50.0f;
+    [SerializeField]
+    private float attackMinimumDistance = 1.0f;
+    [SerializeField]
+    private float seingMaximumDistance = 1.8f;
+    [SerializeField]
+    private float attackDamage = 10.0f;
+    [SerializeField]
+    private float reloadTIME = 2.5f;
+    [SerializeField]
+    private float turretRotationSpeed = 1.5f;
+    [SerializeField]
+    private float reloadCooldown = 2.5f;
+    [SerializeField]
+    private int FireOrder = 1;
+    [SerializeField]
     private GameObject turretHead;
 
     /// <summary>

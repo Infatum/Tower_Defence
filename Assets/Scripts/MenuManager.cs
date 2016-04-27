@@ -6,8 +6,10 @@ public class MenuManager : MonoBehaviour
     /// <summary>
     /// Menu Manager class
     /// </summary>
-    public GameObject menuPanel;
-    public bool escControlled = true;
+    [SerializeField]
+    private GameObject menuPanel;
+    [SerializeField]
+    private bool escControlled = true;
 
     /// <summary>
     /// Awake method;

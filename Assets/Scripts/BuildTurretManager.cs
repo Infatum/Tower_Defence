@@ -7,8 +7,8 @@ public class BuildTurretManager : MonoBehaviour
     /// <summary>
     /// Building a turret class.
     /// </summary>
-    GameObject tileSelectionMarker;
-    GameObject selectorSprite;
+    private GameObject tileSelectionMarker;
+    private GameObject selectorSprite;
 
     /// <summary>
     /// Update method;

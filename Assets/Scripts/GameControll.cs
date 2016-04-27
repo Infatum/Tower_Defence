@@ -14,10 +14,6 @@ class GameControll : MonoBehaviour {
 
     bool menuOpened = false;
     
-	void Awake()
-	{
-       
-	}
     public static void ChangePlayerHP(int diff)
     {
         playerHP += diff;
@@ -29,7 +25,7 @@ class GameControll : MonoBehaviour {
     }
     public static void Money(int mon)
     {
-        money += mon;
+        money -= mon;
     }
 	// Update is called once per frame
 	void Update()

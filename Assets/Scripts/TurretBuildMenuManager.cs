@@ -6,6 +6,7 @@ public class TurretBuildMenuManager : MonoBehaviour
     /// <summary>
     /// Main Turret Build Class;
     /// </summary>
+    
     public static TurretBuildMenuManager instance = null;
     public GameObject turretBuildMenuPanel;
     public GameObject turretPrefab1;

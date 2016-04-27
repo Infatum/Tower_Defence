@@ -10,15 +10,24 @@ public class SpawnManager : MonoBehaviour
     /// <summary>
     /// Spawn manager class;
     /// </summary>
-    public int waveAmount = 5;
-    public int waveNumber = 0;
-    public float waveDelayTimer = 3f;
-    public float waveCoolDown = 20f;
-    public int maxWaves = 500;
-    public GameObject enemy;
-    public int[] enemyCount;
-    public GameObject[] spawnPoints;
-    public GameObject[] pathPoints;
+    [SerializeField]
+    private int waveAmount = 5;
+    [SerializeField]
+    private int waveNumber = 0;
+    [SerializeField]
+    private float waveDelayTimer = 3f;
+    [SerializeField]
+    private float waveCoolDown = 20f;
+    [SerializeField]
+    private int maxWaves = 500;
+    [SerializeField]
+    private GameObject enemy;
+    [SerializeField]
+    private int[] enemyCount;
+    [SerializeField]
+    private GameObject[] spawnPoints;
+    [SerializeField]
+    private GameObject[] pathPoints;
 
     /// <summary>
     /// Fills the array o GameObjects by Spawn Points objects;
